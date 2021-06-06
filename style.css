@@ -1,6 +1,9 @@
 /* GLOBAL */
 :root{
     --dark-blue: #363f5f;
+    --green: #49aa26;
+    --light-green: #3dd705;
+    --red: #e92929;
 }
 
 *{
@@ -9,9 +12,26 @@
     box-sizing: border-box;
 }
 
+html{
+    font-size: 93.75% /* 15px */;
+}
+
 body{
     background: #f0f2f5;
     font-family: 'Poppins', sans-serif;
+}
+
+/* Esconde da tela e deixa visível apenas para o SEO e acessibilidade */
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
 .container{
@@ -25,6 +45,60 @@ h2{
     margin-bottom: 0.8rem; /* 0.8 x font-size do root */
     color: var(--dark-blue);
     font-weight: normal;
+}
+
+/* LINKS & BUTTONS */
+a{
+    color: #49aa26;
+    text-decoration: none;
+}
+
+a:hover{
+    color: #3dd705;
+}
+
+button{
+    width: 100%;
+    height: 50px;
+
+    border: none;
+
+    color: white;
+    background: var(--green);
+
+    padding: 0;
+
+    border-radius: 0.25rem;
+
+    cursor: pointer;
+}
+
+button:hover{
+    background: var(--light-green);
+}
+
+.button.new{
+    display: inline-block; /* transforma o link <a> que é inline
+    em inline-block pois inline nao tem margin bottom e top*/
+    margin-bottom: .8rem;
+}
+
+.button.cancel{
+    color: var(--red);
+    border: 2px var(--red) solid;
+    border-radius: 0.25rem;
+
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0.6;
+}
+
+.button.cancel:hover{
+    opacity: 1;
 }
 
 /* HEADER */
@@ -61,6 +135,10 @@ header{
 .card h3{
     font-weight: normal;
     font-size: 1rem;
+
+    display: flex;
+    align-items: center; /* alinha os elmentos flex no eixo vertical */
+    justify-content: space-between; /* justifica os elementos para cobrir todo o espaçamento*/
 }
 
 .card p{
@@ -73,7 +151,11 @@ header{
     background: #49aa26;
     color: white;
 }
-
+#transaction{
+    display: block;
+    overflow-x: auto; /* coloca a tabela block como rolagem na horizontal sem quebrar */
+    width: 100%;
+}
 /* TABLE */
 #data-table{
     width: 100%; /* 100% do main*/
@@ -81,9 +163,16 @@ header{
     color: #969cb3;
 }
 
+/* apenas a primeira coluna*/
 table thead tr th:first-child,
 table tbody tr td:first-child{
     border-radius: 0.25rem 0 0 0.25rem; /* coloca borda apenas nos cantos da esquerda*/
+}
+
+/* apenas a ultima coluna*/
+table thead tr th:last-child,
+table tbody tr td:last-child{
+    border-radius: 0 0.25rem 0.25rem 0;
 }
 
 table thead th{
@@ -118,10 +207,90 @@ td.expense{
     color: #e92929;
 }
 
+/* MODAL */
+.modal-overlay{
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+    
+    z-index: 999;
+}
+
+.modal-overlay.active{
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal{
+    background: #f0f2f5;
+    padding: 2.4rem;
+
+    position: relative;
+    z-index: 1;
+}
+
+/* FORM */
+#form{
+    max-width: 500px;
+}
+
+#form h2{
+    margin-top: 0;
+}
+
+input{
+    border: none;
+    border-radius: 0.2rem;
+
+    padding: 0.8rem;
+
+    width: 100%;
+}
+
+.input-group{
+    margin-top: 0.8rem;
+}
+
+.input-group small{
+    opacity: 0.4;
+}
+
+.input-group.actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input-group.actions .button,
+.input-group.actions button{
+    width: 48%;
+}
+
 /* FOOTER */
 footer{
     text-align: center;
     padding: 4rem 0 2rem;
     color: var(--dark-blue);
     opacity: 0.6;
+}
+
+/* RESPONSIVE */
+@media (min-width: 800px){
+    html{
+        font-size: 87.5%; /* 14px */
+    }
+    #balance{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
 }
