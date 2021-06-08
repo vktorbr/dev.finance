@@ -9,24 +9,19 @@ const Modal = {
     }
 }
 
+const Storage = {
+    get(){
+        //converte a string em array e se  for indefinida retorna um array vazio
+        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || [];
+    },
+    set(transactions){
+        //converte o array transactions em string e seta em dev.finances:transactions
+        localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions));
+    }
+}
+
 const Transaction = {
-    all: transactions = [
-        {
-            description: 'Luz',
-            amount: -50000,
-            date: '23/01/2021',
-        },
-        {
-            description: 'Criação de Website',
-            amount: 500000,
-            date: '24/01/2021',
-        },
-        {
-            description: 'Aluguel',
-            amount: -150000,
-            date: '26/01/2021',
-        },
-    ],
+    all: Storage.get(),
     add(transaction){
         Transaction.all.push(transaction);
         
@@ -195,6 +190,8 @@ const App = {
         });
         //faz a atualizacao das entradas, saidas e total
         DOM.updateBalance();
+
+        Storage.set(Transaction.all);
     },
     reload(){
         DOM.clearTransactions();
